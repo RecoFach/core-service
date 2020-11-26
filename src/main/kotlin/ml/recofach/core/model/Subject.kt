@@ -1,8 +1,11 @@
 package ml.recofach.core.model
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
+import org.bson.types.ObjectId
+import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.io.Serializable
+import java.util.*
 
 /**
  * Subject model.
@@ -26,5 +29,6 @@ data class Subject(
     val link: String,
     val sws: Int,
     val type: SubjectType,
-    val lang: SubjectLang
+    val lang: SubjectLang,
+    @Id val id: UUID = UUID.randomUUID()
 )
