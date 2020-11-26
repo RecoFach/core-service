@@ -1,4 +1,8 @@
-# RecoFach-Backend
+# Core Service
+
+Kotlin-based service connects services, users, frontend and database.
+
+![Poster Core Service](./public/poster.png)
 
 ## Requirements
 
