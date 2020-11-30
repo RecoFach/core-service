@@ -6,19 +6,22 @@ import ml.recofach.core.service.SubjectService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @RestController
 @RequestMapping("/subjects")
-class SubjectController (
+class SubjectController(
     val subjectService: SubjectService
-) {
+) : AbstractController() {
     @GetMapping
     fun getAllSubjects(): ResponseEntity<List<Subject>> =
-        ResponseEntity(subjectService.findAllSubjects(), HttpStatus.OK)
+        unwrap(subjectService.findAllSubjects())
+
+    @GetMapping("/{uuid}")
+    fun getSubjectById2(@PathVariable uuid: UUID): ResponseEntity<Subject> =
+        unwrap(subjectService.findSubjectById(uuid), fail = HttpStatus.NOT_FOUND)
 
     @PutMapping
-    fun putSubject(@RequestBody s : SubjectR): ResponseEntity<Subject> =
-        subjectService.createSubject(s)
-            ?.let { subject -> ResponseEntity(subject, HttpStatus.OK) }
-            ?: ResponseEntity(HttpStatus.BAD_REQUEST)
+    fun putSubject(@RequestBody s: SubjectR): ResponseEntity<Subject> =
+        unwrap(subjectService.createSubject(s), success = HttpStatus.CREATED)
 }
