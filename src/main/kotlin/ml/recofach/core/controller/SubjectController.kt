@@ -18,8 +18,12 @@ class SubjectController(
         unwrap(subjectService.findAllSubjects())
 
     @GetMapping("/{uuid}")
-    fun getSubjectById2(@PathVariable uuid: UUID): ResponseEntity<Subject> =
+    fun getSubjectById(@PathVariable uuid: UUID): ResponseEntity<Subject> =
         unwrap(subjectService.findSubjectById(uuid), fail = HttpStatus.NOT_FOUND)
+
+    @GetMapping("/find/{name}")
+    fun getSubjectsByName(@PathVariable name: String): ResponseEntity<List<Subject>> =
+        unwrap(subjectService.findSubjectsByName(name))
 
     @PutMapping
     fun putSubject(@RequestBody s: SubjectR): ResponseEntity<Subject> =
