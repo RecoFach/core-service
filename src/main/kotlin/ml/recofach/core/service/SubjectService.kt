@@ -21,7 +21,12 @@ class SubjectService(
             .findById(uuid)
             .get()
 
+    fun findSubjectsByName(name: String): List<Subject> =
+        subjectRepository
+            .findSubjectsByNameIsLike(name)
+
+
     fun createSubject(s : SubjectR): Subject? =
         subjectRepository
-            .save(Subject(s.name, s.link, s.sws, s.type, s.lang))
+            .save(Subject(s.name, s.link, s.sws, s.type, s.lang, s.categories))
 }

@@ -30,5 +30,6 @@ data class Subject(
     val sws: Int,
     val type: SubjectType,
     val lang: SubjectLang,
+    val categories: List<SubjectCategory>,
     @Id val id: UUID = UUID.randomUUID()
 )

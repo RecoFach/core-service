@@ -10,12 +10,6 @@ import java.io.Serializable
  * Can be  Komplexpraktikum (Praxis)
  *        | Seminar
  *        | Vorlesung (Lecture)
- *        | Software engineering (Software)
- *        | AI
- *        | Low-Level (LowLevel)
- *        | Security
- *        | Web
- *        | Theoretical
  *
  * @see Subject
  */
@@ -23,10 +17,5 @@ import java.io.Serializable
 enum class SubjectType {
     SEMINAR,
     LECTURE,
-    SOFTWARE,
-    AI,
-    LOWLEVEL,
-    SECURITY,
-    WEB,
-    THEORETICAL
+    PRAXIS
 }

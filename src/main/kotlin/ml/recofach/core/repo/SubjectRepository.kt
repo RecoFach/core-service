@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface SubjectRepository : CrudRepository<Subject, UUID>
+interface SubjectRepository : CrudRepository<Subject, UUID> {
+    fun findSubjectsByNameIsLike(name: String): List<Subject>
+}
