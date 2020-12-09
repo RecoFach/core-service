@@ -22,10 +22,12 @@ class UserController(
     fun getAllUser(): ResponseEntity<List<User>> =
             unwrap(userService.findAllUsers())
 
+    @CrossOrigin(origins = arrayOf("http://localhost:8081"))
     @PutMapping
     fun putUser(@RequestBody u: UserRequest): ResponseEntity<User> =
             unwrap(userService.createUser(u), success = HttpStatus.CREATED)
 
+    @CrossOrigin(origins = arrayOf("http://localhost:8081"))
     @PostMapping
     fun login(@RequestBody u: UserLoginRequest): ResponseEntity<User> =
             unwrap(userService.login(u), success = HttpStatus.OK, fail = HttpStatus.NOT_FOUND)

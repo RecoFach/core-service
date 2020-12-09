@@ -22,8 +22,8 @@ import java.util.*
 
 @Document
 data class User(
-        val first_name: String,
-        val last_name: String,
+        val firstname: String,
+        val lastname: String,
         val email: String,
         var password: String,
         @Id val id: UUID = UUID.randomUUID()
