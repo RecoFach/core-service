@@ -11,4 +11,5 @@ import java.util.*
 @Repository
 interface UserRepository : CrudRepository<User, UUID>{
     fun findUserByEmailIsLike(email: String): User?
+    fun deleteUserByEmailIsLike(email: String): User?
 }

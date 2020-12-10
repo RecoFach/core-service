@@ -5,6 +5,10 @@ open class UserLoginRequest (
     val password: String
 )
 
+open class UserDeleteRequest (
+        val email: String,
+)
+
 class UserRequest (
     val firstname: String,
     val lastname: String,

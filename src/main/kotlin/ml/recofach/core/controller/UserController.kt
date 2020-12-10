@@ -5,6 +5,7 @@ package ml.recofach.core.controller
 import ml.recofach.core.model.Subject
 import ml.recofach.core.model.User
 import ml.recofach.core.request.SubjectR
+import ml.recofach.core.request.UserDeleteRequest
 import ml.recofach.core.request.UserLoginRequest
 import ml.recofach.core.request.UserRequest
 import ml.recofach.core.service.UserService
@@ -31,4 +32,9 @@ class UserController(
     @PostMapping
     fun login(@RequestBody u: UserLoginRequest): ResponseEntity<User> =
             unwrap(userService.login(u), success = HttpStatus.OK, fail = HttpStatus.NOT_FOUND)
+
+    @CrossOrigin(origins = arrayOf("http://localhost:8081"))
+    @DeleteMapping
+    fun deleteUser(@RequestBody u: UserDeleteRequest): ResponseEntity<User> =
+            unwrap(userService.deleteUser(u), success = HttpStatus.OK, fail = HttpStatus.NOT_FOUND)
 }

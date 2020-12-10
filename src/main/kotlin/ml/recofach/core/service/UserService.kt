@@ -2,9 +2,11 @@ package ml.recofach.core.service
 
 import ml.recofach.core.model.User
 import ml.recofach.core.repo.UserRepository
+import ml.recofach.core.request.UserDeleteRequest
 import ml.recofach.core.request.UserLoginRequest
 import ml.recofach.core.request.UserRequest
 import org.springframework.stereotype.Service
+import java.util.*
 
 
 @Service
@@ -33,4 +35,7 @@ class UserService(
         return null
     }
 
+    fun deleteUser(u: UserDeleteRequest): User? =
+            userRepository
+                    .deleteUserByEmailIsLike(u.email)
 }

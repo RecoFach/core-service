@@ -28,4 +28,5 @@ class SubjectController(
     @PutMapping
     fun putSubject(@RequestBody s: SubjectR): ResponseEntity<Subject> =
         unwrap(subjectService.createSubject(s), success = HttpStatus.CREATED)
+
 }
