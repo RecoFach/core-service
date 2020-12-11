@@ -29,3 +29,11 @@ will find in [Endpoints.md](docs/Endpoints.md)
 ## Models
 
 All models you will find in [Models.md](docs/Models.md)
+
+## Technologies
+
+- [Kotlin](https://kotlinlang.org/)
+- [Spring Boot](https://spring.io/) framework to serve *REST API*
+- [OAuth 2.0](https://tools.ietf.org/html/rfc6749) for Authentication
+  and Authorization.
+  
