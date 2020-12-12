@@ -19,8 +19,8 @@ class UserController(
         unwrap(userService.findAll())
 
     @PutMapping("/signup")
-    fun signUp(@RequestBody user: UserR) =
-        userService.save(user)
+    fun signUp(@RequestBody user: UserR): ResponseEntity<User> =
+        unwrap(userService.save(user))
 
     @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable id: UUID): ResponseEntity<User> =

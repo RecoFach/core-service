@@ -23,13 +23,15 @@ class UserService(
             .toList()
 
     fun delete(id: UUID): User? =
-       userRepository.deleteUserById(id)
+        userRepository.deleteUserById(id)
 
-    fun save(u: UserR): User {
-        val password: String = bCryptPasswordEncoder.encode(u.password)
-        val user = User(u.name, u.surname, u.username, u.email, password)
-        return userRepository.save(user)
-    }
+    fun save(u: UserR): User? =
+        if (!userRepository.existsUserByUsername(u.username)) {
+            val password: String = bCryptPasswordEncoder.encode(u.password)
+            val user = User(u.name, u.surname, u.username, u.email, password)
+            userRepository.save(user)
+        } else null
+
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {

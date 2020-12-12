@@ -8,5 +8,6 @@ import java.util.*
 @Repository
 interface UserRepository : CrudRepository<User, UUID> {
     fun deleteUserById(id: UUID): User?
+    fun existsUserByUsername(username: String): Boolean
     fun findUserByUsername(username: String): User?
 }
