@@ -8,10 +8,8 @@ import io.jsonwebtoken.security.SignatureException
 import ml.recofach.core.security.SecurityConstants
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
-
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 import java.io.IOException
@@ -47,8 +45,10 @@ class AuthorizationFilter(authenticationManager: AuthenticationManager) :
             try {
                 val signingKey = SecurityConstants.JWT_SECRET.toByteArray()
 
-                val parsedToken = Jwts.parser()
+                val parsedToken = Jwts
+                    .parserBuilder()
                     .setSigningKey(signingKey)
+                    .build()
                     .parseClaimsJws(token.replace("Bearer ", ""))
 
                 val username = parsedToken

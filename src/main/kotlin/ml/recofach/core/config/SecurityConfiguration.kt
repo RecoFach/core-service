@@ -2,12 +2,10 @@ package ml.recofach.core.config
 
 import ml.recofach.core.filter.AuthenticationFilter
 import ml.recofach.core.filter.AuthorizationFilter
-import ml.recofach.core.service.UserService
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.UserDetailsAwareConfigurer
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -24,7 +22,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 class SecurityConfiguration(
     @Qualifier("userService") val userDetailsService: UserDetailsService,
     val bCryptPasswordEncoder: BCryptPasswordEncoder
-): WebSecurityConfigurerAdapter() {
+) : WebSecurityConfigurerAdapter() {
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
@@ -32,7 +30,7 @@ class SecurityConfiguration(
             .cors().and().csrf()
             .disable()
             .authorizeRequests()
-            .antMatchers(HttpMethod.PUT,"/users/signup").permitAll()
+            .antMatchers(HttpMethod.PUT, "/users/signup").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilter(AuthenticationFilter(authenticationManager()))

@@ -45,9 +45,6 @@ class AuthenticationFilter(authenticationManager: AuthenticationManager) : Usern
         } catch (e: IOException) {
             throw AuthenticationServiceException(e.message)
         }
-//        val authenticationToken =
-//            UsernamePasswordAuthenticationToken(request.getParameter("username"), request.getParameter("password"))
-//        return authManager.authenticate(authenticationToken)
     }
 
     override fun successfulAuthentication(

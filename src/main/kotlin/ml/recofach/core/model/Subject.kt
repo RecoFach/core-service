@@ -1,11 +1,8 @@
 package ml.recofach.core.model
 
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
-import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import java.io.Serializable
-import java.util.*
+import java.util.UUID
 
 /**
  * Subject model.

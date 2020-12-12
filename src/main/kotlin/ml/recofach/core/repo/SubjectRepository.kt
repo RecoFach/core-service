@@ -3,7 +3,7 @@ package ml.recofach.core.repo
 import ml.recofach.core.model.Subject
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
-import java.util.*
+import java.util.UUID
 
 @Repository
 interface SubjectRepository : CrudRepository<Subject, UUID> {
