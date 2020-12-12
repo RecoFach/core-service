@@ -20,13 +20,15 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class AuthorizationFilter(authenticationManager: AuthenticationManager) : BasicAuthenticationFilter(authenticationManager) {
+class AuthorizationFilter(authenticationManager: AuthenticationManager) :
+    BasicAuthenticationFilter(authenticationManager) {
 
     @Throws(IOException::class, ServletException::class)
-    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse,
-                                  filterChain: FilterChain
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
     ) {
-        val authentication = getAuthentication(request)
         val header = request.getHeader(SecurityConstants.TOKEN_HEADER)
 
         if (StringUtils.isEmpty(header) || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
@@ -34,6 +36,7 @@ class AuthorizationFilter(authenticationManager: AuthenticationManager) : BasicA
             return
         }
 
+        val authentication = getAuthentication(request)
         SecurityContextHolder.getContext().authentication = authentication
         filterChain.doFilter(request, response)
     }
@@ -52,11 +55,8 @@ class AuthorizationFilter(authenticationManager: AuthenticationManager) : BasicA
                     .body
                     .subject
 
-                val authorities =  (parsedToken.body["rol"] as ArrayList<*>)
-                    .map { SimpleGrantedAuthority(it as String?) }
-
                 if (StringUtils.isNotEmpty(username)) {
-                    return UsernamePasswordAuthenticationToken(username, null, authorities)
+                    return UsernamePasswordAuthenticationToken(username, null, ArrayList())
                 }
             } catch (exception: ExpiredJwtException) {
                 log.warn("Request to parse expired JWT : {} failed : {}", token, exception.message)

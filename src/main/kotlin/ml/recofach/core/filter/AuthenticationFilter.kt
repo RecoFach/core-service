@@ -1,15 +1,19 @@
 package ml.recofach.core.filter
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import org.springframework.security.core.userdetails.User
 import ml.recofach.core.security.SecurityConstants
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.AuthenticationServiceException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import java.util.*
+import java.io.IOException
+import java.util.Date
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -22,10 +26,28 @@ class AuthenticationFilter(authenticationManager: AuthenticationManager) : Usern
         authManager = authenticationManager
     }
 
-    override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse): Authentication? {
-        val authenticationToken =
-            UsernamePasswordAuthenticationToken(request.getParameter("username"), request.getParameter("password"))
-        return authManager.authenticate(authenticationToken)
+    override fun attemptAuthentication(
+        request: HttpServletRequest,
+        response: HttpServletResponse?
+    ): Authentication {
+        try {
+            val creds = jacksonObjectMapper()
+                .readValue<ml.recofach.core.request.UserR>(request.inputStream)
+
+
+            return authManager.authenticate(
+                UsernamePasswordAuthenticationToken(
+                    creds.username,
+                    creds.password,
+                    ArrayList()
+                )
+            )
+        } catch (e: IOException) {
+            throw AuthenticationServiceException(e.message)
+        }
+//        val authenticationToken =
+//            UsernamePasswordAuthenticationToken(request.getParameter("username"), request.getParameter("password"))
+//        return authManager.authenticate(authenticationToken)
     }
 
     override fun successfulAuthentication(
@@ -36,8 +58,6 @@ class AuthenticationFilter(authenticationManager: AuthenticationManager) : Usern
     ) {
 
         val user = authentication.principal as User
-
-        val roles = user.authorities.map{ it.authority}
 
         val signingKey = SecurityConstants.JWT_SECRET.toByteArray()
         // Default = 172800000ms = 2 Days
@@ -50,7 +70,6 @@ class AuthenticationFilter(authenticationManager: AuthenticationManager) : Usern
             .setAudience(SecurityConstants.TOKEN_AUDIENCE)
             .setSubject(user.username)
             .setExpiration(Date(System.currentTimeMillis() + tokenLiveTime))
-            .claim("rol", roles)
             .compact()
 
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token)

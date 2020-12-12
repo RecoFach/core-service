@@ -22,7 +22,7 @@ data class User(
     val name: String?,
     val surname: String?,
     val username: String,
-    val email: String,
+    val email: String?,
     val password: String,
     @Id val id: UUID = UUID.randomUUID()
 ) : Serializable

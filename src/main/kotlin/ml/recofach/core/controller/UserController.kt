@@ -18,7 +18,7 @@ class UserController(
     fun getAllUser(): ResponseEntity<List<User>> =
             unwrap(userService.findAllUsers())
 
-    @PostMapping
+    @PutMapping("/signup")
     fun signUp(@RequestBody user: UserR) =
         userService.save(user)
 
