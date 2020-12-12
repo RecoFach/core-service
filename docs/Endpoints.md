@@ -6,3 +6,4 @@ Here you will find all endpoints the core service have.
 > Make sure to replace it with our own *domain* and *port*
 
 - [Subject](./endpoints/subject.md)
+- [User](./endpoints/user.md)
