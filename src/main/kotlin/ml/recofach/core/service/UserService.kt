@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 import kotlin.collections.ArrayList
 
-
 @Service
 class UserService(
     val userRepository: UserRepository,
@@ -26,7 +25,7 @@ class UserService(
         userRepository.deleteUserById(id)
 
     fun save(u: UserR): User? =
-        if (!userRepository.existsUserByUsername(u.username)) {
+        if (u.username.isNotEmpty() && !userRepository.existsUserByUsername(u.username)) {
             val password: String = bCryptPasswordEncoder.encode(u.password)
             val user = User(u.name, u.surname, u.username, u.email, password)
             userRepository.save(user)
