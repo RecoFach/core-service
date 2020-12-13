@@ -2,6 +2,7 @@ package ml.recofach.core.config
 
 import ml.recofach.core.filter.AuthenticationFilter
 import ml.recofach.core.filter.AuthorizationFilter
+import ml.recofach.core.service.UserService
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpMethod
@@ -22,6 +23,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @EnableGlobalMethodSecurity(securedEnabled = true)
 class SecurityConfiguration(
     @Qualifier("userService") val userDetailsService: UserDetailsService,
+    val userService: UserService,
     val bCryptPasswordEncoder: BCryptPasswordEncoder
 ) : WebSecurityConfigurerAdapter() {
 
@@ -34,7 +36,7 @@ class SecurityConfiguration(
             .antMatchers(HttpMethod.PUT, "/users/signup").permitAll()
             .anyRequest().authenticated()
             .and()
-            .addFilter(AuthenticationFilter(authenticationManager()))
+            .addFilter(AuthenticationFilter(authenticationManager(), userService))
             .addFilter(AuthorizationFilter(authenticationManager()))
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

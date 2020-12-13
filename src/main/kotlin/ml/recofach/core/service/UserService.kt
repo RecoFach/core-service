@@ -21,6 +21,10 @@ class UserService(
             .findAll()
             .toList()
 
+    fun findByUsername(username: String): User? =
+        userRepository.findUserByUsername(username)
+
+
     fun delete(id: UUID): User? =
         userRepository.deleteUserById(id)
 

@@ -1,5 +1,6 @@
 package ml.recofach.core.filter
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.jsonwebtoken.Jwts
@@ -7,6 +8,8 @@ import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import org.springframework.security.core.userdetails.User
 import ml.recofach.core.security.SecurityConstants
+import ml.recofach.core.service.UserService
+import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationServiceException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -18,7 +21,10 @@ import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class AuthenticationFilter(authenticationManager: AuthenticationManager) : UsernamePasswordAuthenticationFilter() {
+class AuthenticationFilter(
+    authenticationManager: AuthenticationManager,
+    val userService: UserService
+) : UsernamePasswordAuthenticationFilter() {
     private val authManager: AuthenticationManager
 
     init {
@@ -68,7 +74,12 @@ class AuthenticationFilter(authenticationManager: AuthenticationManager) : Usern
             .setSubject(user.username)
             .setExpiration(Date(System.currentTimeMillis() + tokenLiveTime))
             .compact()
-
+        response.writer.print(getUserInfo(user))
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token)
+    }
+
+    private fun getUserInfo(user: User): String {
+        val u: ml.recofach.core.model.User? = this.userService.findByUsername(user.username);
+        return jacksonObjectMapper().writeValueAsString(u)
     }
 }
