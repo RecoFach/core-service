@@ -22,6 +22,10 @@ class UserController(
     fun signUp(@RequestBody user: UserR): ResponseEntity<User> =
         unwrap(userService.save(user))
 
+    @GetMapping("/{id}")
+    fun findUser(@PathVariable id: UUID): ResponseEntity<User> =
+        unwrap(userService.find(id), fail = HttpStatus.NOT_FOUND)
+
     @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable id: UUID): ResponseEntity<User> =
         unwrap(userService.delete(id), fail = HttpStatus.NOT_FOUND)

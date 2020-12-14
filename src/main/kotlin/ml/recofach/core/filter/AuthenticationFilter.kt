@@ -79,7 +79,7 @@ class AuthenticationFilter(
     }
 
     private fun getUserInfo(user: User): String {
-        val u: ml.recofach.core.model.User? = this.userService.findByUsername(user.username);
+        val u: ml.recofach.core.model.User? = this.userService.find(user.username);
         return jacksonObjectMapper().writeValueAsString(u)
     }
 }
