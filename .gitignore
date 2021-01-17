@@ -35,3 +35,6 @@ build/
 ### OS ###
 ._*
 .DS_*
+
+### DB ###
+src/main/resources/application.properties

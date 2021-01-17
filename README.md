@@ -12,6 +12,8 @@ To run this project you need to install listed below tools:
 - Kotlin
 - Maven
 
+or Docker
+
 To connect to MongoDB add the line like below in your
 `src/main/resources/application.properties`:
 
@@ -19,7 +21,38 @@ To connect to MongoDB add the line like below in your
 spring.data.mongodb.uri=mongodb+srv://<user>:<pass>@<url>/<db-name>
 ```
 
-For more detailed guide see [Installation.md](docs/Installation.md)
+## Run
+
+### Dev
+
+To run this setup for development run following command:
+
+```
+./mvnw clean spring-boot:run
+```
+
+This will start dev server on `localhost` on `8080` port.
+
+### Prod
+
+For production, we use [Docker](https://docker.com/).
+
+
+1. Build the docker image. You need specify version of backend service. 
+   Ensure to replace `version` values with yours.
+
+    ```docker
+    docker build -t recofach-core .
+    ```
+
+1. Run the docker image. Ensure map `8080` port to needed one.
+
+    ```docker
+    docker run -p 8080:8080 \
+    -e SPRING_DATA_MONGODB_URI="mongodb+srv://admin:admin@core-db.kkpqk.mongodb.net/core-db" \
+    --name recofach-core recofach-core
+    ```
+
 
 ## Endpoints and methods
 
