@@ -7,8 +7,11 @@ WORKDIR /app
 # copy source files to workdir
 COPY . /app
 
+# install dependencies
+RUN mvn clean install -DskipTests
+
 # package application
-RUN mvn clean package
+RUN mvn package
 
 # exposing Port
 EXPOSE 8080
