@@ -3,6 +3,7 @@ package ml.recofach.core.service
 import ml.recofach.core.model.SubjectCategory
 import ml.recofach.core.model.User
 import ml.recofach.core.repo.UserRepository
+import ml.recofach.core.request.DetailsR
 import ml.recofach.core.request.InterestsR
 import ml.recofach.core.request.UserR
 import org.springframework.security.core.userdetails.UserDetails
@@ -41,6 +42,9 @@ class UserService(
 
     fun update(id: UUID, i: InterestsR): User? =
         this.find(id)?.let { user ->  this.userRepository.save(user.update(i)) }
+
+    fun update(id: UUID, d: DetailsR): User? =
+        this.find(id)?.let { user ->  this.userRepository.save(user.update(d)) }
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {

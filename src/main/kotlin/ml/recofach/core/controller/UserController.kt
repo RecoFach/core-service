@@ -1,6 +1,7 @@
 package ml.recofach.core.controller
 
 import ml.recofach.core.model.User
+import ml.recofach.core.request.DetailsR
 import ml.recofach.core.request.InterestsR
 import ml.recofach.core.request.UserR
 import ml.recofach.core.service.UserService
@@ -26,6 +27,10 @@ class UserController(
     @PostMapping("/{id}/interests")
     fun update(@PathVariable id: UUID, @RequestBody interests: InterestsR): ResponseEntity<User> =
             unwrap(userService.update(id, interests))
+
+    @PostMapping("/{id}/details")
+    fun update(@PathVariable id: UUID, @RequestBody details: DetailsR): ResponseEntity<User> =
+        unwrap(userService.update(id, details))
 
     @GetMapping("/{id}")
     fun findUser(@PathVariable id: UUID): ResponseEntity<User> =
