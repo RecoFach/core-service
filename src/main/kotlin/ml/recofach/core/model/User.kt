@@ -1,5 +1,6 @@
 package ml.recofach.core.model
 
+import ml.recofach.core.request.InterestsR
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.io.Serializable
@@ -24,5 +25,12 @@ data class User(
     val username: String,
     val email: String?,
     val password: String,
+    var interests: MutableSet<SubjectCategory>,
     @Id val id: UUID = UUID.randomUUID()
-) : Serializable
+) : Serializable {
+    fun update(i: InterestsR): User {
+        this.interests.clear()
+        this.interests.addAll(i.interests)
+        return this
+    }
+}

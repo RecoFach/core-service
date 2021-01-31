@@ -16,10 +16,10 @@ package ml.recofach.core.model
  */
 
 enum class SubjectCategory {
-    SOFTWARE,
     AI,
     LOWLEVEL,
     SECURITY,
-    WEB,
-    THEORETICAL
+    SOFTWARE,
+    THEORETICAL,
+    WEB
 }
