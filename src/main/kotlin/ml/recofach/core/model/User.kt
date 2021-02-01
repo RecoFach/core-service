@@ -36,9 +36,9 @@ data class User(
     }
 
     fun update(d: DetailsR): User {
-        this.name = d.name
-        this.surname = d.surname
-        this.email = d.email
+        if (d.name.isNotEmpty()) this.name = d.name
+        if (d.surname.isNotEmpty()) this.surname = d.surname
+        if (d.email.isNotEmpty()) this.email = d.email
         return this
     }
 }
