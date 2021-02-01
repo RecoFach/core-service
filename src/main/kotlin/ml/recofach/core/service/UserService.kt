@@ -1,6 +1,5 @@
 package ml.recofach.core.service
 
-import ml.recofach.core.model.SubjectCategory
 import ml.recofach.core.model.User
 import ml.recofach.core.repo.UserRepository
 import ml.recofach.core.request.DetailsR

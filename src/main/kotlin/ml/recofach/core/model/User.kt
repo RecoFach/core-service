@@ -1,7 +1,6 @@
 package ml.recofach.core.model
 
 import ml.recofach.core.request.DetailsR
-import ml.recofach.core.request.InterestsR
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.io.Serializable

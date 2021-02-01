@@ -26,7 +26,7 @@ class SubjectService(
             .findSubjectsByNameIsLike(name)
 
 
-    fun createSubject(s : SubjectR): Subject? =
+    fun createSubject(s: SubjectR): Subject? =
         subjectRepository
             .save(Subject(s.name, s.link, s.sws, s.type, s.lang, s.categories))
 }
