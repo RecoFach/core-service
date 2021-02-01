@@ -13,30 +13,34 @@ import java.util.UUID
 @RestController
 @RequestMapping("/users")
 class UserController(
-        val userService: UserService
+    val userService: UserService
 ) : AbstractController() {
 
     @GetMapping
     fun getAllUser(): ResponseEntity<List<User>> =
-            unwrap(userService.findAll())
+        unwrap(userService.findAll())
 
     @PutMapping("/signup")
     fun signUp(@RequestBody user: UserR): ResponseEntity<User> =
-            unwrap(userService.save(user))
+        unwrap(userService.save(user))
 
     @PostMapping("/{id}/interests")
     fun update(@PathVariable id: UUID, @RequestBody interests: InterestsR): ResponseEntity<User> =
-            unwrap(userService.update(id, interests))
+        unwrap(userService.update(id, interests))
 
     @PostMapping("/{id}/details")
     fun update(@PathVariable id: UUID, @RequestBody details: DetailsR): ResponseEntity<User> =
         unwrap(userService.update(id, details))
 
+    @PostMapping("/{id}/password")
+    fun update(@PathVariable id: UUID, @RequestBody user: UserR): ResponseEntity<User> =
+        unwrap(userService.update(id, user.password), fail = HttpStatus.NOT_FOUND)
+
     @GetMapping("/{id}")
     fun findUser(@PathVariable id: UUID): ResponseEntity<User> =
-            unwrap(userService.find(id), fail = HttpStatus.NOT_FOUND)
+        unwrap(userService.find(id), fail = HttpStatus.NOT_FOUND)
 
     @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable id: UUID): ResponseEntity<User> =
-            unwrap(userService.delete(id), fail = HttpStatus.NOT_FOUND)
+        unwrap(userService.delete(id), fail = HttpStatus.NOT_FOUND)
 }

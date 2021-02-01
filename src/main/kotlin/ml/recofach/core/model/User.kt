@@ -26,14 +26,9 @@ data class User(
     val username: String,
     var email: String?,
     val password: String,
-    var interests: MutableSet<SubjectCategory>,
+    val interests: Set<SubjectCategory>,
     @Id val id: UUID = UUID.randomUUID()
 ) : Serializable {
-    fun update(i: InterestsR): User {
-        this.interests.clear()
-        this.interests.addAll(i.interests)
-        return this
-    }
 
     fun update(d: DetailsR): User {
         if (d.name.isNotEmpty()) this.name = d.name

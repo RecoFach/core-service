@@ -36,15 +36,19 @@ class UserService(
     fun save(u: UserR): User? =
         if (u.username.isNotEmpty() && !userRepository.existsUserByUsername(u.username)) {
             val password: String = bCryptPasswordEncoder.encode(u.password)
-            val user = User(u.name, u.surname, u.username, u.email, password, mutableSetOf())
+            val user = User(u.name, u.surname, u.username, u.email, password, setOf())
             userRepository.save(user)
         } else null
 
     fun update(id: UUID, i: InterestsR): User? =
-        this.find(id)?.let { user ->  this.userRepository.save(user.update(i)) }
+        this.find(id)?.let { user -> this.userRepository.save(user.copy(interests = i.interests)) }
 
     fun update(id: UUID, d: DetailsR): User? =
-        this.find(id)?.let { user ->  this.userRepository.save(user.update(d)) }
+        this.find(id)?.let { user -> this.userRepository.save(user.update(d)) }
+
+    fun update(id: UUID, p: String): User? =
+        this.find(id)?.let { user -> userRepository.save(user.copy(password = bCryptPasswordEncoder.encode(p))) }
+
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
